@@ -8,6 +8,8 @@ severity: error
 S = "${WORKDIR}"
 ```
 
+The same applies to variables of the form `S_<suffix>`, e.g. `S_foo = "${WORKDIR}/foo"`.
+
 ## Why is this bad?
 
 Recently upstream changed the way sources are unpacked/refreshed
@@ -21,4 +23,5 @@ using WORKDIR for S.
 
 ```
 S = "${UNPACKDIR}"
+S_foo = "${UNPACKDIR}/foo"
 ```

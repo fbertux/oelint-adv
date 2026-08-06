@@ -277,7 +277,7 @@ Rules marked with **[I]** need to be activated through [a rule file](#defining-a
 * [oelint.vars.srcurisrcrevtag](https://github.com/priv-kweihmann/oelint-adv/blob/master/docs/wiki/oelint.vars.srcurisrcrevtag.md) - 'tag' in SRC_URI and a SRCREV for the same component doesn't compute
 * [oelint.vars.summary80chars](https://github.com/priv-kweihmann/oelint-adv/blob/master/docs/wiki/oelint.vars.summary80chars.md) - SUMMARY should max. be 80 characters long
 * [oelint.vars.summarylinebreaks](https://github.com/priv-kweihmann/oelint-adv/blob/master/docs/wiki/oelint.vars.summarylinebreaks.md) - No line breaks in SUMMARY
-* [oelint.vars.unpackdir](https://github.com/priv-kweihmann/oelint-adv/blob/master/docs/wiki/oelint.vars.unpackdir.md) - \$\{UNPACKDIR\} should be used instead of \$\{WORKDIR\} in S
+* [oelint.vars.unpackdir](https://github.com/priv-kweihmann/oelint-adv/blob/master/docs/wiki/oelint.vars.unpackdir.md) - \$\{UNPACKDIR\} should be used instead of \$\{WORKDIR\} in S or S_\<suffix\>
 * [oelint.vars.valuequoted](https://github.com/priv-kweihmann/oelint-adv/blob/master/docs/wiki/oelint.vars.valuequoted.md) - Variable values should be properly quoted
 * [oelint.vars.virtual](https://github.com/priv-kweihmann/oelint-adv/blob/master/docs/wiki/oelint.vars.virtual.md) - no virtual/ items in RDEPENDS/RPROVIDES
 
