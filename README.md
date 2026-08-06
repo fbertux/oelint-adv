@@ -268,6 +268,7 @@ Rules marked with **[I]** need to be activated through [a rule file](#defining-a
 * [oelint.vars.specific](https://github.com/priv-kweihmann/oelint-adv/blob/master/docs/wiki/oelint.vars.specific.md) - Variable is specific to an unknown identifier
 * [oelint.vars.srcuriappend](https://github.com/priv-kweihmann/oelint-adv/blob/master/docs/wiki/oelint.vars.srcuriappend.md) - Use SRC_URI:append(SRC_URI_append) otherwise this will override weak defaults by inherit
 * [oelint.vars.srcurichecksum](https://github.com/priv-kweihmann/oelint-adv/blob/master/docs/wiki/oelint.vars.srcurichecksum.md) - If SRC_URI has URLs pointing single file that is not from VCS, then checksusm is required
+* [oelint.vars.srcuridestsuffix](https://github.com/priv-kweihmann/oelint-adv/blob/master/docs/wiki/oelint.vars.srcuridestsuffix.md) - Use \$\{BB_GIT_DEFAULT_DESTSUFFIX\} instead of hardcoded 'git' in SRC_URI destsuffix (whinlatter+)
 * [oelint.vars.srcuridomains](https://github.com/priv-kweihmann/oelint-adv/blob/master/docs/wiki/oelint.vars.srcuridomains.md) - Recipe is pulling from different domains, this will likely cause issues
 * [oelint.vars.srcurifile](https://github.com/priv-kweihmann/oelint-adv/blob/master/docs/wiki/oelint.vars.srcurifile.md) - First item of SRC_URI should not be a file:// fetcher, if multiple fetcher are used
 * [oelint.vars.srcurigittag](https://github.com/priv-kweihmann/oelint-adv/blob/master/docs/wiki/oelint.vars.srcurigittag.md) - 'tag' in SRC_URI-options leads to not-reproducible builds
