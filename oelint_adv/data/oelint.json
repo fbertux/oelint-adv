@@ -112,6 +112,11 @@
             "SRC_URI"
         ]
     },
+    "oelint-multilineident": {
+        "indent": [
+            4
+        ]
+    },
     "oelint-require-file-ignore": [],
     "oelint-semicolon-vars": [
         "LIC_FILES_CHKSUM",
