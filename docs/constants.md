@@ -116,13 +116,6 @@ then the resulting file named `oelint.constants.json` places into the layer root
 | variables/protected-append | list | variables not to be used in bbappends      | `oelint_parse.constants.CONSTANT.VariablesProtectedAppend` |
 | variables/suggested        | list | suggested variable in a recipe             | `oelint_parse.constants.CONSTANT.VariablesSuggested`       |
 
-## Constants of the rule `oelint.vars.specific`
-
-| key                                         | type | description                                                                       |
-| ------------------------------------------- | ---- | --------------------------------------------------------------------------------- |
-| oelint-vars-specific/image-fstype-variables | list | variables that accept an image type as override, e.g. `IMAGE_CMD:ext4`            |
-| oelint-vars-specific/image-fstypes          | list | known image types                                                                 |
-
 ## Adding more user specific constants
 
 You can add more constants by creating a json file similar to [the above example](#example) and then reference that through

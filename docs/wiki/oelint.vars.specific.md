@@ -27,6 +27,20 @@ PACKAGE_BEFORE_PN += "${PN}-mypackage"
 FILES:${PN}-mypackage += "some/file"
 ```
 
-Overrides for image types like ``IMAGE_CMD:ext4`` or ``EXTRA_IMAGECMD:ext4`` are accepted, if the type is in
+If the package is created dynamically (e.g. in python code of a bbclass), so that it can't be seen in ``PACKAGES``,
+list the suffixes of those packages in the constants key ``oelint-vars-specific/package-suffixes``.
+A ``${PN}-<suffix>`` or ``${BPN}-<suffix>`` override is then accepted, if ``<suffix>`` is in that list.
+
+```json
+{
+  "oelint-vars-specific": {
+    "package-suffixes": [
+      "mypackage"
+    ]
+  }
+}
+```
+
+Overrides for image types like ``IMAGE_CMD:ext4``, ``EXTRA_IMAGECMD:ext4`` or ``IMAGE_TYPEDEP:ubi`` are accepted, if the type is in
 ``oelint-vars-specific/image-fstypes``. The variables, that are checked this way, are listed in
 ``oelint-vars-specific/image-fstype-variables``.

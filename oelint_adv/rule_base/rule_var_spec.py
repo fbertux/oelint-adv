@@ -31,6 +31,7 @@ class VarPnBpnUsage(Rule):
         _operations = ['append', 'prepend', 'remove']
         _fstypes = CONSTANTS.GetByPath('oelint-vars-specific/image-fstypes')
         _fstype_vars = CONSTANTS.GetByPath('oelint-vars-specific/image-fstype-variables')
+        _pkg_suffixes = CONSTANTS.GetByPath('oelint-vars-specific/package-suffixes')
         for i in items:
             subs = [(x, stash.ExpandTerm(_file, x)) for x in i.SubItems]
             if i.VarName.startswith('SRCREV_') and not i.VarName.startswith('SRCREV_FORMAT'):
@@ -53,6 +54,8 @@ class VarPnBpnUsage(Rule):
                 if _comp and (RegexRpl.match(_comp, expanded) or RegexRpl.match(_comp, sub)):
                     continue  # pragma: nocover_3.9 - coverage looks buggy on 3.9
                 if i.VarName in _fstype_vars and sub in _fstypes:
+                    continue
+                if sub.startswith(('${PN}-', '${BPN}-')) and sub.split('-', 1)[1] in _pkg_suffixes:
                     continue
                 if expanded.startswith('task-'):
                     continue

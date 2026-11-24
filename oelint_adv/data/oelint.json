@@ -199,7 +199,8 @@
             "vfat",
             "wic",
             "wicenv"
-        ]
+        ],
+        "package-suffixes": []
     },
     "replacements": {
         "mirrors": {

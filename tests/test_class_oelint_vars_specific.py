@@ -340,3 +340,73 @@ class TestClassOelintVarsSpecific(TestBaseClass):
                              )
     def test_bad_image_fstypes(self, input_, id_, occurrence):
         self.check_for_id(self._create_args(input_), id_, occurrence)
+
+    @pytest.mark.parametrize('id_', ['oelint.vars.specific'])
+    @pytest.mark.parametrize('occurrence', [0])
+    @pytest.mark.parametrize('input_',
+                             [
+                                 {
+                                     'oelint_adv_test.bb':
+                                     '''
+                                     RDEPENDS:${PN}-targetfiles = "foo"
+                                     FILES:${PN}-systemtests-targetfiles = "/foo"
+                                     INSANE_SKIP:${BPN}-targetfiles = "foo"
+                                     ''',
+                                 },
+                             ],
+                             )
+    def test_good_package_suffixes(self, input_, id_, occurrence):
+        __cnt = '''
+        {
+            "oelint-vars-specific": {
+                "package-suffixes": [
+                    "targetfiles",
+                    "systemtests-targetfiles"
+                ]
+            }
+        }
+        '''
+        _extra_opts = [
+            '--constantmod=+{mod}'.format(mod=self._create_tempfile('constmod', __cnt))]
+        self.check_for_id(self._create_args(input_, _extra_opts), id_, occurrence)
+
+    @pytest.mark.parametrize('id_', ['oelint.vars.specific'])
+    @pytest.mark.parametrize('occurrence', [1])
+    @pytest.mark.parametrize('input_',
+                             [
+                                 {
+                                     'oelint_adv_test.bb':
+                                     'RDEPENDS:${PN}-targetfiles = "foo"',
+                                 },
+                             ],
+                             )
+    def test_bad_package_suffixes_not_configured(self, input_, id_, occurrence):
+        self.check_for_id(self._create_args(input_), id_, occurrence)
+
+    @pytest.mark.parametrize('id_', ['oelint.vars.specific'])
+    @pytest.mark.parametrize('occurrence', [1])
+    @pytest.mark.parametrize('input_',
+                             [
+                                 {
+                                     'oelint_adv_test.bb':
+                                     'RDEPENDS:${PN}-targetfile = "foo"',
+                                 },
+                                 {
+                                     'oelint_adv_test.bb':
+                                     'RDEPENDS:targetfiles = "foo"',
+                                 },
+                             ],
+                             )
+    def test_bad_package_suffixes_typo(self, input_, id_, occurrence):
+        __cnt = '''
+        {
+            "oelint-vars-specific": {
+                "package-suffixes": [
+                    "targetfiles"
+                ]
+            }
+        }
+        '''
+        _extra_opts = [
+            '--constantmod=+{mod}'.format(mod=self._create_tempfile('constmod', __cnt))]
+        self.check_for_id(self._create_args(input_, _extra_opts), id_, occurrence)
