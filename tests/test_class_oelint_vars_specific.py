@@ -283,3 +283,60 @@ class TestClassOelintVarsSpecific(TestBaseClass):
     def test_good_old(self, input_, id_, occurrence):
         self.check_for_id(self._create_args(
             input_, ['--release=dunfell']), id_, occurrence)
+
+    @pytest.mark.parametrize('id_', ['oelint.vars.specific'])
+    @pytest.mark.parametrize('occurrence', [0])
+    @pytest.mark.parametrize('input_',
+                             [
+                                 {
+                                     'oelint_adv_test.bb':
+                                     '''
+                                     IMAGE_CMD:ext4 = "foo"
+                                     EXTRA_IMAGECMD:ext4 = "-b 4096"
+                                     ''',
+                                 },
+                                 {
+                                     'oelint_adv_test.bb':
+                                     '''
+                                     IMAGE_CMD:squashfs-xz = "foo"
+                                     IMAGE_CMD:erofs-lz4hc = "foo"
+                                     EXTRA_IMAGECMD:btrfs = "-r"
+                                     ''',
+                                 },
+                                 {
+                                     'oelint_adv_test.bb':
+                                     '''
+                                     IMAGE_TYPEDEP:ubi = "ext4"
+                                     IMAGE_TYPEDEP:live = "ext4"
+                                     IMAGE_TYPEDEP:container = "tar.bz2"
+                                     ''',
+                                 },
+                             ],
+                             )
+    def test_good_image_fstypes(self, input_, id_, occurrence):
+        self.check_for_id(self._create_args(input_), id_, occurrence)
+
+    @pytest.mark.parametrize('id_', ['oelint.vars.specific'])
+    @pytest.mark.parametrize('occurrence', [1])
+    @pytest.mark.parametrize('input_',
+                             [
+                                 {
+                                     'oelint_adv_test.bb':
+                                     'EXTRA_IMAGECMD:ext5 = "-b 4096"',
+                                 },
+                                 {
+                                     'oelint_adv_test.bb':
+                                     'IMAGE_CMD:ext44 = "foo"',
+                                 },
+                                 {
+                                     'oelint_adv_test.bb':
+                                     'FOO:ext4 = "foo"',
+                                 },
+                                 {
+                                     'oelint_adv_test.bb':
+                                     'IMAGE_TYPEDEP:ubii = "ext4"',
+                                 },
+                             ],
+                             )
+    def test_bad_image_fstypes(self, input_, id_, occurrence):
+        self.check_for_id(self._create_args(input_), id_, occurrence)

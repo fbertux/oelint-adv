@@ -165,6 +165,42 @@
         "SYSTEMD_SERVICE",
         "USERADD_PARAM"
     ],
+    "oelint-vars-specific": {
+        "image-fstype-variables": [
+            "EXTRA_IMAGECMD",
+            "IMAGE_CMD",
+            "IMAGE_TYPEDEP"
+        ],
+        "image-fstypes": [
+            "btrfs",
+            "container",
+            "cpio",
+            "cramfs",
+            "erofs",
+            "erofs-lz4",
+            "erofs-lz4hc",
+            "ext2",
+            "ext3",
+            "ext4",
+            "f2fs",
+            "hddimg",
+            "iso",
+            "jffs2",
+            "live",
+            "multiubi",
+            "squashfs",
+            "squashfs-lz4",
+            "squashfs-lzo",
+            "squashfs-xz",
+            "squashfs-zst",
+            "tar",
+            "ubi",
+            "ubifs",
+            "vfat",
+            "wic",
+            "wicenv"
+        ]
+    },
     "replacements": {
         "mirrors": {
             "${APACHE_MIRROR}": "http://www.us.apache.org/dist",

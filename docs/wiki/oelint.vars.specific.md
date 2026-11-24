@@ -26,3 +26,7 @@ PACKAGE_BEFORE_PN += "${PN}-mypackage"
 
 FILES:${PN}-mypackage += "some/file"
 ```
+
+Overrides for image types like ``IMAGE_CMD:ext4`` or ``EXTRA_IMAGECMD:ext4`` are accepted, if the type is in
+``oelint-vars-specific/image-fstypes``. The variables, that are checked this way, are listed in
+``oelint-vars-specific/image-fstype-variables``.

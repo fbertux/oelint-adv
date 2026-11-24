@@ -29,6 +29,8 @@ class VarPnBpnUsage(Rule):
         _builtin_classes = ['class-native', 'class-target',
                             'class-nativesdk', 'class-cross']
         _operations = ['append', 'prepend', 'remove']
+        _fstypes = CONSTANTS.GetByPath('oelint-vars-specific/image-fstypes')
+        _fstype_vars = CONSTANTS.GetByPath('oelint-vars-specific/image-fstype-variables')
         for i in items:
             subs = [(x, stash.ExpandTerm(_file, x)) for x in i.SubItems]
             if i.VarName.startswith('SRCREV_') and not i.VarName.startswith('SRCREV_FORMAT'):
@@ -50,6 +52,8 @@ class VarPnBpnUsage(Rule):
                     continue  # pragma: nocover_3.9 - coverage looks buggy on 3.9
                 if _comp and (RegexRpl.match(_comp, expanded) or RegexRpl.match(_comp, sub)):
                     continue  # pragma: nocover_3.9 - coverage looks buggy on 3.9
+                if i.VarName in _fstype_vars and sub in _fstypes:
+                    continue
                 if expanded.startswith('task-'):
                     continue
                 if expanded.startswith('pn-'):
