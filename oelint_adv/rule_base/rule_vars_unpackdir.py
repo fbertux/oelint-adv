@@ -9,7 +9,7 @@ from oelint_adv.cls_rule import Rule
 _S_FAMILY_RE = re.compile(r'^S([_:].+)?$')
 
 
-class VarRootfsPostprocessCommand(Rule):
+class VarUnpackdir(Rule):
     def __init__(self) -> None:
         super().__init__(id='oelint.vars.unpackdir',
                          severity='error',
