@@ -23,6 +23,19 @@ def get_indent() -> int:
     return valid[-1] if valid else DEFAULT_INDENT
 
 
+def is_ignored(item: Union[Variable, FlagAssignment]) -> bool:
+    """Check if an item is excluded from the indent check by configuration
+
+    Args:
+        item (Union[Variable, FlagAssignment]): item to check
+
+    Returns:
+        bool: True if the name of the item is in oelint-multilineident/ignore-vars
+    """
+    values = CONSTANTS.GetByPath('oelint-multilineident/ignore-vars')
+    return isinstance(values, list) and item.VarName in values
+
+
 def get_items(stash: Stash, _file: str) -> List[Union[Variable, FlagAssignment]]:
     """Get all variables and flag assignments of a file
 

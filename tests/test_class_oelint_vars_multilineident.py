@@ -447,3 +447,116 @@ class TestClassOelintVarsMultilineIdent(TestBaseClass):
         _args = self._create_args(input_, extraopts=_extra_opts)
 
         self.check_for_id(_args, id_, occurrence)
+
+    @pytest.mark.parametrize('id_', ['oelint.vars.multilineident'])
+    @pytest.mark.parametrize('occurrence,input_',
+                             [
+                                 (
+                                     0,
+                                     {
+                                         'oelint_adv_test.bb':
+                                         '''
+                                         A = "\\
+                                           a \\
+                                              b \\
+                                         "
+                                         ''',
+                                     },
+                                 ),
+                                 (
+                                     0,
+                                     {
+                                         'oelint_adv_test.bb':
+                                         '''
+                                         A:append = "\\
+                                           a \\
+                                         "
+                                         A[flag] = "\\
+                                           a \\
+                                         "
+                                         ''',
+                                     },
+                                 ),
+                                 (
+                                     1,
+                                     {
+                                         'oelint_adv_test.bb':
+                                         '''
+                                         A = "\\
+                                           a \\
+                                         "
+                                         B = "\\
+                                           b \\
+                                         "
+                                         ''',
+                                     },
+                                 ),
+                                 (
+                                     1,
+                                     {
+                                         'oelint_adv_test.bb':
+                                         '''
+                                         ABC = "\\
+                                           a \\
+                                         "
+                                         ''',
+                                     },
+                                 ),
+                             ],
+                             )
+    def test_ignore_vars(self, input_, id_, occurrence):
+        __cnt = '''
+        {
+            "oelint-multilineident": {
+                "ignore-vars": ["A"]
+            }
+        }
+        '''
+        _extra_opts = [
+            '--constantmods=+{mod}'.format(mod=self._create_tempfile('constmod', __cnt))]
+        self.check_for_id(self._create_args(input_, extraopts=_extra_opts), id_, occurrence)
+
+    @pytest.mark.parametrize('id_', ['oelint.vars.multilineident'])
+    @pytest.mark.parametrize('invalid', ['"A"', '1', 'true', '{}'])
+    @pytest.mark.parametrize('input_',
+                             [
+                                 {
+                                     'oelint_adv_test.bb':
+                                     '''
+                                     A = "\\
+                                       a \\
+                                     "
+                                     ''',
+                                 },
+                             ],
+                             )
+    def test_bad_invalid_ignore_vars(self, input_, id_, invalid):
+        __cnt = '''
+        {
+            "oelint-multilineident": {
+                "ignore-vars": %s
+            }
+        }
+        ''' % invalid
+        _extra_opts = [
+            '--constantmods={mod}'.format(mod=self._create_tempfile('constmod', __cnt))]
+        self.check_for_id(self._create_args(input_, extraopts=_extra_opts), id_, 1)
+
+    def test_fix_ignore_vars(self):
+        from oelint_adv.__main__ import run
+        _input = 'A = "\\\n  a \\\n     b \\\n"\nB = "\\\n  b \\\n"\n'
+        __cnt = '''
+        {
+            "oelint-multilineident": {
+                "ignore-vars": ["A"]
+            }
+        }
+        '''
+        _extra_opts = [
+            '--constantmods=+{mod}'.format(mod=self._create_tempfile('constmod', __cnt))]
+        args = self._create_args_fix({'oelint_adv_test.bb': _input}, _extra_opts)
+        run(args)
+        with open(args.files[0]) as i:
+            assert i.read() == 'A = "\\\n  a \\\n     b \\\n"\nB = "\\\n    b \\\n"\n'
+        args.fix = False
+        self.check_for_id(args, 'oelint.vars.multilineident', 0)

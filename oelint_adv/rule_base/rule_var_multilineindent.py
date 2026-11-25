@@ -4,7 +4,7 @@ from oelint_parser.cls_item import Variable
 from oelint_parser.cls_stash import Stash
 
 from oelint_adv.cls_rule import Rule
-from oelint_adv.rule_base.multiline_helper import QUOTES, apply_segments, get_indent, get_segments
+from oelint_adv.rule_base.multiline_helper import QUOTES, apply_segments, get_indent, get_segments, is_ignored
 
 
 class VarMultiLineIndent(Rule):
@@ -40,7 +40,7 @@ class VarMultiLineIndent(Rule):
         res = []
         items: List[Variable] = stash.GetItemsFor(filename=_file, classifier=Variable.CLASSIFIER)
         for i in items:
-            if not i.IsMultiLine():
+            if not i.IsMultiLine() or is_ignored(i):
                 continue
             for index, actual, allowed in self.__line_stats(get_segments(i)):
                 if actual not in allowed:
@@ -53,7 +53,7 @@ class VarMultiLineIndent(Rule):
         res = []
         items: List[Variable] = stash.GetItemsFor(filename=_file, classifier=Variable.CLASSIFIER)
         for i in items:
-            if not i.IsMultiLine():
+            if not i.IsMultiLine() or is_ignored(i):
                 continue
             segments = get_segments(i)
             for index, actual, allowed in self.__line_stats(segments):

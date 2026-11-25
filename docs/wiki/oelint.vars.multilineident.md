@@ -55,3 +55,16 @@ added with the `+` prefix of `--constantmods`. Entries that aren't a positive in
     }
 }
 ```
+
+Variables whose value can't be indented, because the indent is part of the content,
+can be excluded through the constant `oelint-multilineident/ignore-vars` (list of variable names, default: empty).
+Ignored variables are neither reported nor changed by `--fix`.
+The name is compared without overrides, so `FOO:${PN}` is covered as well.
+
+```json
+{
+    "oelint-multilineident": {
+        "ignore-vars": ["FOO"]
+    }
+}
+```
