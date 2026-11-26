@@ -101,7 +101,7 @@ class TestClassOelintVarInheritLast(TestBaseClass):
     def test_good_inherit_include_first(self, id_, occurrence):
         input_ = {
             'oelint_adv_test.bb': 'require x.inc\ninherit native',
-            'x.inc': '\n' * 20 + 'inherit foo',
+            'x.inc': '# pad\n' * 20 + 'inherit foo',
         }
         self.check_for_id(self._create_args(input_), id_, occurrence)
 
@@ -110,7 +110,7 @@ class TestClassOelintVarInheritLast(TestBaseClass):
     def test_bad_inherit_include_last(self, id_, occurrence):
         input_ = {
             'oelint_adv_test.bb': 'inherit native\nrequire x.inc',
-            'x.inc': '\n' * 20 + 'inherit foo',
+            'x.inc': '# pad\n' * 20 + 'inherit foo',
         }
         self.check_for_id(self._create_args(input_), id_, occurrence)
 
