@@ -211,3 +211,39 @@ class TestClassOelintFuncSpecific(TestBaseClass):
                              )
     def test_good_old(self, input_, id_, occurrence):
         self.check_for_id(self._create_args(input_, ['--release=dunfell']), id_, occurrence)
+
+    @pytest.mark.parametrize('id_', ['oelint.func.specific'])
+    @pytest.mark.parametrize('input_',
+                             [
+                                 {
+                                     'oelint_adv_test.bb':
+                                     'pkg_postinst:${PN}-systemtests() {\n    true\n}\n',
+                                 },
+                             ],
+                             )
+    def test_good_known_packages(self, input_, id_):
+        __cnt = '''
+        {
+            "packages": {
+                "known": [
+                    "${PN}-systemtests",
+                    "${PN}-systemtests-targetfiles"
+                ]
+            }
+        }
+        '''
+        _extra_opts = [
+            '--constantmod=+{mod}'.format(mod=self._create_tempfile('constmod', __cnt))]
+        self.check_for_id(self._create_args(input_, _extra_opts), id_, 0)
+
+    @pytest.mark.parametrize('id_', ['oelint.func.specific'])
+    @pytest.mark.parametrize('input_',
+                             [
+                                 {
+                                     'oelint_adv_test.bb':
+                                     'pkg_postinst:${PN}-systemtests() {\n    true\n}\n',
+                                 },
+                             ],
+                             )
+    def test_bad_known_packages_not_configured(self, input_, id_):
+        self.check_for_id(self._create_args(input_), id_, 1)

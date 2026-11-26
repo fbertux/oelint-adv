@@ -106,6 +106,7 @@ then the resulting file named `oelint.constants.json` places into the layer root
 | functions/order            | list | preferred order of core functions          | `oelint_parse.constants.CONSTANT.FunctionsOrder`           |
 | images/known-classes       | list | bbclasses to be known to be used in images | `oelint_parse.constants.CONSTANT.ImagesClasses`            |
 | images/known-variables     | list | variables known to be used in images       | `oelint_parse.constants.CONSTANT.ImagesVariables`          |
+| packages/known             | list | packages not visible in the recipe, e.g. created by a class at parse time. `${PN}` is replaced by the recipe name | `oelint_parse.constants.CONSTANT.PackagesKnown`            |
 | replacements/distros       | list | known distro overrides                     | `oelint_parse.constants.CONSTANT.DistrosKnown`             |
 | replacements/machines      | list | known machine overrides                    | `oelint_parse.constants.CONSTANT.MachinesKnown`            |
 | replacements/mirrors       | dict | known mirrors                              | `oelint_parse.constants.CONSTANT.MirrorsKnown`             |

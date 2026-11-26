@@ -142,3 +142,39 @@ class TestClassOelintVarsPKGSpecific(TestBaseClass):
                              )
     def test_good_custom_pkg(self, input_, id_, occurrence):
         self.check_for_id(self._create_args(input_), id_, occurrence)
+
+    @pytest.mark.parametrize('id_', ['oelint.vars.pkgspecific.RDEPENDS'])
+    @pytest.mark.parametrize('input_',
+                             [
+                                 {
+                                     'oelint_adv_test.bb':
+                                     'RDEPENDS:${PN}-systemtests = "foo"',
+                                 },
+                             ],
+                             )
+    def test_good_known_packages(self, input_, id_):
+        __cnt = '''
+        {
+            "packages": {
+                "known": [
+                    "${PN}-systemtests",
+                    "${PN}-systemtests-targetfiles"
+                ]
+            }
+        }
+        '''
+        _extra_opts = [
+            '--constantmod=+{mod}'.format(mod=self._create_tempfile('constmod', __cnt))]
+        self.check_for_id(self._create_args(input_, _extra_opts), id_, 0)
+
+    @pytest.mark.parametrize('id_', ['oelint.vars.pkgspecific.RDEPENDS'])
+    @pytest.mark.parametrize('input_',
+                             [
+                                 {
+                                     'oelint_adv_test.bb':
+                                     'RDEPENDS:${PN}-systemtests = "foo"',
+                                 },
+                             ],
+                             )
+    def test_bad_known_packages_not_configured(self, input_, id_):
+        self.check_for_id(self._create_args(input_), id_, 1)
