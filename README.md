@@ -232,6 +232,7 @@ Rules marked with **[I]** need to be activated through [a rule file](#defining-a
 * [oelint.vars.downloadfilename](https://github.com/priv-kweihmann/oelint-adv/blob/master/docs/wiki/oelint.vars.downloadfilename.md) - Fetcher does create a download artifact without 'PV' in the filename
 * [oelint.vars.duplicate](https://github.com/priv-kweihmann/oelint-adv/blob/master/docs/wiki/oelint.vars.duplicate.md) - No duplicates in DEPENDS and RDEPENDS
 * [oelint.vars.dusageinpkgfuncs](https://github.com/priv-kweihmann/oelint-adv/blob/master/docs/wiki/oelint.vars.dusageinpkgfuncs.md) - use \$D instead of \$\{D\} in pkg functions **[F]**
+* [oelint.vars.featurescheck](https://github.com/priv-kweihmann/oelint-adv/blob/master/docs/wiki/oelint.vars.featurescheck.md) - Use ':append' or ':remove' for feature check variables
 * [oelint.vars.fileextrapaths](https://github.com/priv-kweihmann/oelint-adv/blob/master/docs/wiki/oelint.vars.fileextrapaths.md) - 'FILESEXTRAPATHS' shouldn't be used in a bb file
 * [oelint.vars.fileextrapathsop](https://github.com/priv-kweihmann/oelint-adv/blob/master/docs/wiki/oelint.vars.fileextrapathsop.md) - 'FILESEXTRAPATHS' should only be used in combination with ' := '
 * [oelint.vars.filessetting](https://github.com/priv-kweihmann/oelint-adv/blob/master/docs/wiki/oelint.vars.filessetting.md) - unnecessary FILES settings
