@@ -25,14 +25,14 @@ class VarSRCUriFirstFile(Rule):
 
             for x in lines:
                 if x == INLINE_BLOCK:
-                    _fetcher.append(('inline', item.InFileLine))
+                    _fetcher.append(('inline', item.Origin, item.InFileLine))
                     continue
                 _url = stash.GetScrComponents(x)
                 if _url['scheme']:
                     if prepend:
-                        _fetcher.insert(0, (_url['scheme'], item.InFileLine))
+                        _fetcher.insert(0, (_url['scheme'], item.Origin, item.InFileLine))
                     else:
-                        _fetcher.append((_url['scheme'], item.InFileLine))
+                        _fetcher.append((_url['scheme'], item.Origin, item.InFileLine))
 
         for item in items:
             if 'remove' in item.SubItems:
@@ -47,5 +47,5 @@ class VarSRCUriFirstFile(Rule):
 
         if _fetcher:
             if any(x[0] not in ['file', 'inline'] for x in _fetcher) and _fetcher[0][0] == 'file':
-                res += self.finding(item.Origin, _fetcher[0][1])
+                res += self.finding(_fetcher[0][1], _fetcher[0][2])
         return res
