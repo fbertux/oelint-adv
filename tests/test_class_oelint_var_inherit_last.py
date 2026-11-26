@@ -101,7 +101,7 @@ class TestClassOelintVarInheritLast(TestBaseClass):
     def test_good_inherit_include_first(self, id_, occurrence):
         input_ = {
             'oelint_adv_test.bb': 'require x.inc\ninherit native',
-            'x.inc': 'inherit foo',
+            'x.inc': '\n' * 20 + 'inherit foo',
         }
         self.check_for_id(self._create_args(input_), id_, occurrence)
 
@@ -110,7 +110,7 @@ class TestClassOelintVarInheritLast(TestBaseClass):
     def test_bad_inherit_include_last(self, id_, occurrence):
         input_ = {
             'oelint_adv_test.bb': 'inherit native\nrequire x.inc',
-            'x.inc': 'inherit foo',
+            'x.inc': '\n' * 20 + 'inherit foo',
         }
         self.check_for_id(self._create_args(input_), id_, occurrence)
 
@@ -119,5 +119,15 @@ class TestClassOelintVarInheritLast(TestBaseClass):
     def test_bad_inherit_in_bbclass(self, id_, occurrence):
         input_ = {
             'classes/oelint_adv_test.bbclass': 'inherit native\ninherit foo',
+        }
+        self.check_for_id(self._create_args(input_), id_, occurrence)
+
+    @pytest.mark.parametrize('id_', ['oelint.var.inheritlast.native'])
+    @pytest.mark.parametrize('occurrence', [0])
+    def test_good_inherit_class_requires_include(self, id_, occurrence):
+        input_ = {
+            'oelint_adv_test.bb': 'inherit foo native',
+            'classes/foo.bbclass': 'require y.inc',
+            'classes/y.inc': 'inherit bar',
         }
         self.check_for_id(self._create_args(input_), id_, occurrence)

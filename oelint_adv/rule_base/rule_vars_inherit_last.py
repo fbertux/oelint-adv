@@ -20,8 +20,15 @@ class VarInheritLast(Rule):
 
     def check(self, _file: str, stash: Stash) -> List[Rule.Finding]:
         res = []
+        # inherits done by a class (or by files pulled in by a class) are not part of the recipe's own order
+        _from_classes = set()
+        for _link in stash.GetLinksForFile(_file):
+            if _link.endswith('.bbclass'):
+                _from_classes.add(_link)
+                _from_classes.update(stash.GetLinksForFile(_link))
+        _from_classes.discard(_file)
         items: List[Inherit] = [x for x in stash.GetItemsFor(filename=_file, classifier=Inherit.CLASSIFIER)
-                                if not x.Origin.endswith('.bbclass') or x.Origin == _file]
+                                if x.Origin not in _from_classes]
         _findings = []
         for i in items:
             for class_ in i.get_items():
