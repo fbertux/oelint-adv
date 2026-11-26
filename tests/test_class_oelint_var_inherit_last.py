@@ -82,3 +82,42 @@ class TestClassOelintVarInheritLast(TestBaseClass):
                              )
     def test_good_inherit(self, input_, id_, occurrence):
         self.check_for_id(self._create_args(input_), id_, occurrence)
+
+    @pytest.mark.parametrize('id_', ['oelint.var.inheritlast',
+                                     'oelint.var.inheritlast.native',
+                                     'oelint.var.inheritlast.nativesdk',
+                                     'oelint.var.inheritlast.cross'])
+    @pytest.mark.parametrize('occurrence', [0])
+    @pytest.mark.parametrize('needle', ['native', 'nativesdk', 'cross'])
+    def test_good_inherit_class_inherits(self, needle, id_, occurrence):
+        input_ = {
+            'oelint_adv_test.bb': f'inherit foo {needle}',
+            'classes/foo.bbclass': 'inherit bar',
+        }
+        self.check_for_id(self._create_args(input_), id_, occurrence)
+
+    @pytest.mark.parametrize('id_', ['oelint.var.inheritlast.native'])
+    @pytest.mark.parametrize('occurrence', [0])
+    def test_good_inherit_include_first(self, id_, occurrence):
+        input_ = {
+            'oelint_adv_test.bb': 'require x.inc\ninherit native',
+            'x.inc': 'inherit foo',
+        }
+        self.check_for_id(self._create_args(input_), id_, occurrence)
+
+    @pytest.mark.parametrize('id_', ['oelint.var.inheritlast.native'])
+    @pytest.mark.parametrize('occurrence', [1])
+    def test_bad_inherit_include_last(self, id_, occurrence):
+        input_ = {
+            'oelint_adv_test.bb': 'inherit native\nrequire x.inc',
+            'x.inc': 'inherit foo',
+        }
+        self.check_for_id(self._create_args(input_), id_, occurrence)
+
+    @pytest.mark.parametrize('id_', ['oelint.var.inheritlast.native'])
+    @pytest.mark.parametrize('occurrence', [1])
+    def test_bad_inherit_in_bbclass(self, id_, occurrence):
+        input_ = {
+            'classes/oelint_adv_test.bbclass': 'inherit native\ninherit foo',
+        }
+        self.check_for_id(self._create_args(input_), id_, occurrence)

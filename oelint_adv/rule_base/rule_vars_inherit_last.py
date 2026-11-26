@@ -20,7 +20,8 @@ class VarInheritLast(Rule):
 
     def check(self, _file: str, stash: Stash) -> List[Rule.Finding]:
         res = []
-        items: List[Inherit] = stash.GetItemsFor(filename=_file, classifier=Inherit.CLASSIFIER)
+        items: List[Inherit] = [x for x in stash.GetItemsFor(filename=_file, classifier=Inherit.CLASSIFIER)
+                                if not x.Origin.endswith('.bbclass') or x.Origin == _file]
         _findings = []
         for i in items:
             for class_ in i.get_items():
